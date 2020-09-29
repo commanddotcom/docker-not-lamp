@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  webserver1:
+    build: ./etc/apache/
+    container_name: _name_-apache
+    expose:
+      - 80
+    environment:
+      VIRTUAL_HOST: _domain_
+      DOCKER: 1
+    volumes:
+      - $PWD/web/upload:/var/www/html
+    networks:
+        - mysql
+        - postgres
+        - nginx-proxy
+networks:
+    postgres:
+        external: true
+    mysql:
+        external: true
+    nginx-proxy:
+        external: true

@@ -1,0 +1,35 @@
+version: '3'
+services:
+  nginx:
+    build: ./etc/nginx/
+    container_name: _name_-nginx
+    expose:
+      - 80
+    environment:
+      VIRTUAL_HOST: _name_.local
+    volumes:
+      - '$PWD/web:/var/www/html'
+      - './etc/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+    networks:
+      - mysql
+      - postgres
+      - nginx-proxy
+  php:
+    build: ./etc/php
+    container_name: _name_-php
+    restart: always
+    privileged: true
+    volumes:
+      - '$PWD/web:/var/www/html/'
+    networks:
+      - mysql
+      - postgres
+      - nginx-proxy
+networks:
+  postgres:
+    external: true
+  mysql:
+    external: true
+  nginx-proxy:
+    external: true
+

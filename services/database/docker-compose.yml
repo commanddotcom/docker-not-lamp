@@ -1,0 +1,75 @@
+version: "3"
+services:
+    mysql:
+        image: mysql:${MYSQL_VERSION}
+        container_name: ${MYSQL_HOST}
+        restart: always
+        env_file:
+            - ".env"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            - "./mysql:/var/lib/mysql"
+            - "./backups:/backups"
+        networks:
+            - mysql
+    myadmin:
+        image: phpmyadmin/phpmyadmin:4.6
+        expose:
+            - 80
+        env_file:
+            - ".env"
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=${MYSQL_HOST}
+            - VIRTUAL_HOST=${PHPMYADMIN_VIRTUAL_HOST}
+        volumes:
+            - "./backups:/backups"
+        depends_on:
+            - mysql
+        networks:
+            - mysql
+            - nginx-proxy
+    postgres:
+        image: postgres:${PG_VERSION}
+        container_name: ${PG_HOST}
+        restart: always
+        env_file:
+            - ".env"
+        environment:
+            - POSTGRES_USER=dev
+            - POSTGRES_PASSWORD=pass
+            - POSTGRES_DB=db
+        volumes:
+            - "./postgres:/var/lib/postgresql/data"
+            - "./backups:/backups"
+        networks:
+            - postgres
+    pgadmin:
+        image: dpage/pgadmin4:4.23
+        container_name: pgadmin
+        expose:
+            - 80
+        env_file:
+            - ".env"
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+            - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASS}
+            - VIRTUAL_HOST=${PG_ADMIN_VIRTUAL_HOST}
+        volumes:
+            - "./backups:/backups"
+        depends_on:
+            - postgres
+        networks:
+            - postgres
+            - nginx-proxy
+networks:
+    mysql:
+        external: true
+    postgres:
+        external: true
+    nginx-proxy:
+        external: true
