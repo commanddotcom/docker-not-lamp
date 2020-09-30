@@ -2,6 +2,10 @@ HOST_FILE="/etc/hosts";
 TEMPLATE_DIR="$(pwd)/services/templates"
 PROJECTS_DIR="$(pwd)/domains"
 
+setRandPass() {
+    echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10);
+}
+
 askForNewProjectname() {
     read -r -p "$(echo -e ${Cyan}Enter project name${NC} [numbers, letters, slash]: ) " PROJECT_NAME;
     PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME";

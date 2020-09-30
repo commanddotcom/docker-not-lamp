@@ -2,6 +2,7 @@
 
 !.gitignore
 !.env
+!install.sh
 !README.md
 !Makefile
 
@@ -26,6 +27,7 @@
 !/services/templates/**
 
 !/services/database
+/services/database/.env
 !/services/database/docker-compose.yml
 !/services/database/env.dist
 !/services/database/backups
