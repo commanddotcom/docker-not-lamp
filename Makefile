@@ -10,7 +10,7 @@ help:
 	@echo "  status              Show info about running containers"
 	@echo "  v                   Show current version of core DockLAMP"
 	@echo ""
-	@echo "  new                 Create new project (php+apache)"
+	@echo "  new                 Create new project (based on project template)"
 	@echo "  up                  Trigger 'docker-composer up -d' for the existing project"
 	@echo "  down                Trigger 'docker-composer down -v' for the existing project"
 	@echo "  build               Trigger 'docker-compose up -d --no-deps --build' for the existing project" 
