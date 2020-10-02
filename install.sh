@@ -55,7 +55,13 @@ echo -e "\t\tLogin: "$(grep 'PGADMIN_DEFAULT_EMAIL' $ENV_FILE | cut -d '=' -f2);
 echo -e "\t\tPassword: "$(grep 'PGADMIN_DEFAULT_PASS' $ENV_FILE | cut -d '=' -f2);  
 echo '';
 
-echo -e "You can always find db creadentials are in $ENV_FILE";
+echo -e "\tDockLAMP  Copyright (C) 2020  Yevgen Shevchenko";
+echo -e "\tThis program comes with ABSOLUTELY NO WARRANTY;";
+echo -e "\tThis is free software, and you are welcome to redistribute it";
+echo -e "\tunder certain conditions; type \"make about\" for details.";
+echo '';    
+
+echo -e "You can always find root db creadentials are in $ENV_FILE";
 echo '';
 echo 'Installation complite! Run "make" for help';
 echo '';

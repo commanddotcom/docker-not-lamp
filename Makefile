@@ -8,14 +8,16 @@ help:
 	@echo "  start               Start nginx-proxy container and database containers (MySQL+PostgreSQL)"
 	@echo "  stop                Stop nginx-proxy container and database containers (MySQL+PostgreSQL)"
 	@echo "  status              Show info about running containers"
-	@echo "  v                   Show current version of core DockLAMP"
 	@echo ""
 	@echo "  new                 Create new project (based on project template)"
 	@echo "  up                  Trigger 'docker-composer up -d' for the existing project"
 	@echo "  down                Trigger 'docker-composer down -v' for the existing project"
 	@echo "  build               Trigger 'docker-compose up -d --no-deps --build' for the existing project" 
-	@echo "  rm                  Remove all project files and /etc/hosts record"
+	@echo "  rm                  Remove files, /etc/hosts record and db data for the existing project"
 	@echo ""
+	@echo "  v                   Show current version of core DockLAMP"
+	@echo "  about               Show license & origins"
+
 v:	
 	@echo $(VERSION)
 
@@ -44,3 +46,6 @@ status:
 
 build:
 	@bash -e "$(SHELL_DIR)/docker.compose.sh" "up -d --no-deps --build"
+
+about:
+	@cat "./license.txt"
