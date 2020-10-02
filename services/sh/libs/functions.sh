@@ -1,6 +1,15 @@
-HOST_FILE="/etc/hosts";
-TEMPLATE_DIR="$(pwd)/services/templates"
-PROJECTS_DIR="$(pwd)/domains"
+getEnvValue() {
+    echo $(eval echo $(grep $1 "$(pwd)/.env" | cut -d '=' -f2));
+}
+
+IP=$(getEnvValue "IP");
+HOST_FILE=$(getEnvValue "TEMPLATE_DIR");
+TEMPLATE_DIR="$(pwd)/"$(getEnvValue "TEMPLATE_DIR")
+NGINX_PROXY_DIR="$(pwd)/"$(getEnvValue "NGINX_PROXY_DIR");
+DATABASE_DIR="$(pwd)/"$(getEnvValue "DATABASE_DIR");
+PROJECTS_DIR="$(pwd)/"$(getEnvValue "PROJECTS_DIR");
+SERVICE_DIR="$(pwd)/"$(getEnvValue "SERVICE_DIR");
+SHELL_DIR="$(pwd)/"$(getEnvValue "SHELL_DIR");
 
 setRandPass() {
     echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10);
@@ -32,7 +41,7 @@ getProject() {
                 break;
             fi
             askForProjectname_Output+="\n"
-            if [ -f "$(pwd)/$f/docker-compose.yml" ]; then
+            if [ -f "$PROJECTS_DIR/$f/docker-compose.yml" ]; then
                 runningConainers=$(countRunningContainersForDockerComposer "$(pwd)/$f");
                 if [ $runningConainers -gt 0 ]; then
                     projectLabel="${On_Green} $runningConainers container is running ${NC}";

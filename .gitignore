@@ -25,6 +25,7 @@
 
 !/services/templates/
 !/services/templates/**
+/services/templates/private.*
 
 !/services/database
 /services/database/.env

@@ -1,10 +1,7 @@
 #!/bin/bash
 
-. "$(dirname "$0")"/libs/colors.sh
-. "$(dirname "$0")"/libs/functions.sh
-
-IP="127.0.0.1";
-TEMPLATE_DIR="$(pwd)/services/templates";
+. "$(dirname "$0")/libs/colors.sh"
+. "$(dirname "$0")/libs/functions.sh"
 
 sudo echo "Creating new project ...";
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. "$(dirname "$0")"/libs/colors.sh
-. "$(dirname "$0")"/libs/functions.sh
+. "$(dirname "$0")/libs/colors.sh"
+. "$(dirname "$0")/libs/functions.sh"
 
 sudo echo "Removing project ...";
 
