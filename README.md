@@ -11,10 +11,11 @@ That's it. Now you can start your first project with `make new`
 
 ## Hints
 
-- If you are looking for you db credentials go to `./services/database/.env` 
+- If you are looking for your db credentials go to `./services/database/.env` 
 - Type `make` to get help on `Makefile`
+- `.installed` file in the root folder of each project keeps information about project origins
 
 ## Disclaimer
 
-DockLAMP is a lite script to bust up your productivity. It is not meant to be used on production.
+DockLAMP is a lite script to boost up your productivity. It is not meant to be used on production.
 
