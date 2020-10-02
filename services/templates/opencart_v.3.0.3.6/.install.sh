@@ -30,4 +30,19 @@ echo "Setting chmod 777 for config.php files";
 find "$PUBLIC_FOLDER/config.php" -exec chmod 777 {} \;
 find "$PUBLIC_FOLDER/admin/config.php" -exec chmod 777 {} \;
 
+echo "Database setup....";
+MYSQL_newDatabase;
+
+echo '';
+echo -e "${BIBlue} Database ${NC}: $MYSQL_NEW_DB_NAME";
+echo -e "${BIBlue} User ${NC}: $MYSQL_NEW_DB_USER_NAME";
+echo -e "${BIBlue} Password ${NC}: $MYSQL_NEW_DB_USER_PASS";
+echo '';
 echo -e "${LABEL_SUCCESS} Opencart 3.0.3.6 is installed!";
+
+LOG_ENV="${LOG_ENV}FRAMEWORK=\"OPENCART\"\n";
+LOG_ENV="${LOG_ENV}FRAMEWORK_VERSION=\"3.0.3.6\"\n";
+LOG_ENV="${LOG_ENV}MYSQL_DATABASE=\"$MYSQL_NEW_DB_NAME\"\n";
+LOG_ENV="${LOG_ENV}MYSQL_USER=\"$MYSQL_NEW_DB_USER_NAME\"\n";
+LOG_ENV="${LOG_ENV}MYSQL_PASSWORD=\"$MYSQL_NEW_DB_USER_PASS\"\n";
+

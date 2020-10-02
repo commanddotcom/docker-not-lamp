@@ -10,7 +10,7 @@ if [ -f "$ENV_FILE" ]; then
     exit 0;
 fi
 
-export MYSQL_ROOT_PASSWORD=$(setRandPass) MYSQL_PASSWORD=$(setRandPass) PG_PASSWORD=$(setRandPass) PGADMIN_DEFAULT_PASS=$(setRandPass);
+export MYSQL_ROOT_PASSWORD=$(getRandStr) MYSQL_PASSWORD=$(getRandStr) PG_PASSWORD=$(getRandStr) PGADMIN_DEFAULT_PASS=$(getRandStr);
 envsubst '${MYSQL_ROOT_PASSWORD} ${MYSQL_PASSWORD} ${PG_PASSWORD} ${PGADMIN_DEFAULT_PASS}' <"./services/database/env.dist" >"$ENV_FILE"
 
 make start

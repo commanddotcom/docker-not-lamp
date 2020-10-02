@@ -1,9 +1,14 @@
 getEnvValue() {
-    echo $(eval echo $(grep $1 "$(pwd)/.env" | cut -d '=' -f2));
+    if [ -z $2 ]; then
+        ENV_FILE_="$(pwd)/.env";
+    else 
+        ENV_FILE_=$2;
+    fi
+    echo $(eval echo $(grep $1 "$ENV_FILE_" | cut -d '=' -f2));
 }
 
 IP=$(getEnvValue "IP");
-HOST_FILE=$(getEnvValue "TEMPLATE_DIR");
+HOST_FILE=$(getEnvValue "HOST_FILE");
 TEMPLATE_DIR="$(pwd)/"$(getEnvValue "TEMPLATE_DIR")
 NGINX_PROXY_DIR="$(pwd)/"$(getEnvValue "NGINX_PROXY_DIR");
 DATABASE_DIR="$(pwd)/"$(getEnvValue "DATABASE_DIR");
@@ -11,8 +16,13 @@ PROJECTS_DIR="$(pwd)/"$(getEnvValue "PROJECTS_DIR");
 SERVICE_DIR="$(pwd)/"$(getEnvValue "SERVICE_DIR");
 SHELL_DIR="$(pwd)/"$(getEnvValue "SHELL_DIR");
 
-setRandPass() {
-    echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10);
+getRandStr() {
+    if [ -z $1 ]; then
+        RAND_STR_LENGTH=10;
+    else 
+        RAND_STR_LENGTH=$1;
+    fi
+    echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c $RAND_STR_LENGTH);
 }
 
 askForNewProjectname() {
@@ -97,7 +107,8 @@ askForProjectname() {
 
 addHost() {
     DOMAIN_NAME=$1
-    HOSTS_LINE=$2
+    HOSTS_LINE="$IP\t$DOMAIN_NAME";
+
     if [ -n "$(grep $DOMAIN_NAME $HOST_FILE)" ]
         then
             echo -e "${LABEL_INFO} $DOMAIN_NAME already exists : $(grep $DOMAIN_NAME $HOST_FILE)"
@@ -203,4 +214,26 @@ testContainer() {
         echo -e " ${On_Cyan}  ${NC} $3 is $nginxProxyStatus "
     fi
 
+}
+
+MYSQL_newDatabase() {
+    MYSQL_ROOT_USER=$(getEnvValue 'MYSQL_ROOT_USER' "$DATABASE_DIR/.env");
+    MYSQL_ROOT_PASSWORD=$(getEnvValue 'MYSQL_ROOT_PASSWORD' "$DATABASE_DIR/.env");
+    MYSQL_NEW_DB_NAME="db_${PROJECT_NAME}";
+    MYSQL_NEW_DB_USER_NAME="u_$(getRandStr 6)";
+    MYSQL_NEW_DB_USER_PASS=$(getRandStr);
+
+    docker exec -it mysql bash -c "mysql -u $MYSQL_ROOT_USER -p'$MYSQL_ROOT_PASSWORD' -e \"CREATE DATABASE IF NOT EXISTS $MYSQL_NEW_DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL PRIVILEGES ON $MYSQL_NEW_DB_NAME.* TO '$MYSQL_NEW_DB_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_NEW_DB_USER_PASS'; FLUSH PRIVILEGES\""
+}
+
+MYSQL_removeUser() {
+    MYSQL_ROOT_USER=$(getEnvValue 'MYSQL_ROOT_USER' "$DATABASE_DIR/.env");
+    MYSQL_ROOT_PASSWORD=$(getEnvValue 'MYSQL_ROOT_PASSWORD' "$DATABASE_DIR/.env");
+    docker exec -it mysql bash -c "mysql -u $MYSQL_ROOT_USER -p'$MYSQL_ROOT_PASSWORD' -e \"DROP USER IF EXISTS '$1'@'%'\""
+}
+
+MYSQL_removeDatabase() {
+    MYSQL_ROOT_USER=$(getEnvValue 'MYSQL_ROOT_USER' "$DATABASE_DIR/.env");
+    MYSQL_ROOT_PASSWORD=$(getEnvValue 'MYSQL_ROOT_PASSWORD' "$DATABASE_DIR/.env");
+    docker exec -it mysql bash -c "mysql -u $MYSQL_ROOT_USER -p'$MYSQL_ROOT_PASSWORD' -e \"DROP DATABASE IF EXISTS $1\""
 }
