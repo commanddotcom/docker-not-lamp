@@ -15,24 +15,28 @@ if [ $SAFTY_CONFIRMATION != 'delete' ]; then
     exit 0;
 fi
 
-DOMAIN="$PROJECT_NAME.local";
-removeHost $DOMAIN # Remove host from the host file
+if ! [ -d "$PROJECT_DIR" ]; then
+    echo -e "${LABEL_INFO} \"$PROJECT_DIR\" doesn't exist.";
+    exit 0;
+fi
 
 if [ -f "$PROJECT_DIR/.installed" ]; then
-    MYSQL_DATABASE=$(getEnvValue 'MYSQL_DATABASE' "$PROJECT_DIR/.installed");
+    
     MYSQL_USER=$(getEnvValue 'MYSQL_USER' "$PROJECT_DIR/.installed");
     if ! [ -z $MYSQL_USER ]; then
         MYSQL_removeUser $MYSQL_USER;
     fi
+
+    MYSQL_DATABASE=$(getEnvValue 'MYSQL_DATABASE' "$PROJECT_DIR/.installed");
     if ! [ -z $MYSQL_DATABASE ]; then
         MYSQL_removeDatabase $MYSQL_DATABASE;
     fi
+
+    DOMAIN=$(getEnvValue 'DOMAIN' "$PROJECT_DIR/.installed");
+    if ! [ -z $DOMAIN ]; then
+        removeHost $DOMAIN;
+    fi
 fi
 
-if [ -d "$PROJECT_DIR" ]; then
-    $(cd $PROJECT_DIR; docker-compose down -v); # Remove containers
-    removeProjectDir $PROJECT_NAME # Remove files
-else
-    echo -e "${LABEL_INFO} \"$PROJECT_DIR\" doesn't exist.";
-fi
-
+$(cd $PROJECT_DIR; docker-compose down -v); # Remove containers
+removeProjectDir $PROJECT_NAME # Remove files

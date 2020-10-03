@@ -26,7 +26,7 @@ getRandStr() {
 }
 
 askForNewProjectname() {
-    read -r -p "$(echo -e ${Cyan}Enter project name${NC} [numbers, letters, slash]: ) " PROJECT_NAME;
+    read -r -p "$(echo -e ${Cyan} Enter project name${NC} [numbers, letters, slash]: ) " PROJECT_NAME;
     PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME";
     re='^[A-Za-z0-9-]+$'
     if ! [[ $PROJECT_NAME =~ $re ]] ; then
@@ -102,6 +102,31 @@ askForProjectname() {
     if ! [ -f "$DOCKER_COMPOSER_FILE" ]; then
         echo -e "${LABEL_ERROR} Project is invalid: file $UWhite$DOCKER_COMPOSER_FILE$NC doesn't exist! Try another one!";
         askForProjectname;
+    fi
+}
+
+setDOMAIN() {
+
+    if [ -z $1 ]; then
+        read -r -p "$(echo -e ${Cyan} Print domain name${NC} [A-Za-z0-9.-_]: ) " DOMAIN;
+    else
+        echo -e " ${BCyan}List of options:${NC}";
+        echo "  1) $1.local";
+        echo "  2) dev.$1";
+        echo "  3) Other (custom)";
+
+        read -r -p "$(echo -e ${Cyan} Select domain for new project${NC} [Enter number]: ) " DOMAIN_OPTION_ID;
+
+        if [ $DOMAIN_OPTION_ID -eq "1" ]; then
+            DOMAIN="$1.local";
+        elif [ $DOMAIN_OPTION_ID -eq "2" ]; then
+            DOMAIN="dev.$1";
+        elif [ $DOMAIN_OPTION_ID -eq "3" ]; then
+            setDOMAIN;
+        else 
+            echo -e "${LABEL_ERROR} Invalid number. Try again!";
+            setDOMAIN $1;
+        fi
     fi
 }
 

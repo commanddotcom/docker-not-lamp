@@ -12,14 +12,14 @@ sudo echo "Creating new project ...";
 askForNewProjectname;
 setTemplateFolder;
 
-DOMAIN="$PROJECT_NAME.local";
+setDOMAIN $PROJECT_NAME;
 
 LOG_ENV="${LOG_ENV}PROJECT_NAME=\"${PROJECT_NAME}\"\n";
 LOG_ENV="${LOG_ENV}DOMAIN=\"${DOMAIN}\"\n";
 LOG_ENV="${LOG_ENV}ORIGIN_TEMPLATE=\"${TEMPLATE_FOLDER}\"\n";
 
 if [ -d "$PROJECT_DIR" ]; then
-    echo "${LABEL_ERROR} Failed to create new project: directory \"$PROJECT_DIR\" already exist.";
+    echo -e "${LABEL_ERROR} Failed to create new project: directory \"$PROJECT_DIR\" already exist.";
     exit 1;
 fi
 
