@@ -28,8 +28,7 @@ getRandStr() {
 askForNewProjectname() {
     read -r -p "$(echo -e ${Cyan} Enter project name${NC} [numbers, letters, slash]: ) " PROJECT_NAME;
     PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME";
-    re='^[A-Za-z0-9-]+$'
-    if ! [[ $PROJECT_NAME =~ $re ]] ; then
+    if ! [[ $PROJECT_NAME =~ ^[A-Za-z0-9\.\-]+$ ]] ; then
         echo -e "${LABEL_ERROR} ${BRed}Invalid project name${NC}";
         askForNewProjectname;
     fi
@@ -90,8 +89,7 @@ askForProjectname() {
         exit 0;
     fi
     
-    re='^[0-9]+$'
-    if ! [[ $PROJECT_ID =~ $re ]] ; then
+    if ! [[ $PROJECT_ID =~ ^[0-9]+$ ]] ; then
         echo -e "${LABEL_ERROR} \"$PROJECT_ID\" is not a number.";
         exit 0;
     fi
@@ -108,7 +106,11 @@ askForProjectname() {
 setDOMAIN() {
 
     if [ -z $1 ]; then
-        read -r -p "$(echo -e ${Cyan} Print domain name${NC} [A-Za-z0-9.-_]: ) " DOMAIN;
+        read -r -p "$(echo -e ${Cyan} Print domain name${NC} [A-Za-z0-9.-]: ) " DOMAIN;
+        if ! [[ $DOMAIN =~ ^[A-Za-z0-9\.\-]+$ ]]; then
+            echo -e "${LABEL_ERROR} ${BRed}Invalid domain name${NC}";
+            setDOMAIN;
+        fi
     else
         echo -e " ${BCyan}List of options:${NC}";
         echo "  1) $1.local";
@@ -196,8 +198,7 @@ setTemplateFolder() {
 
     read -r -p "$(echo -e ${Cyan} Select template for new project${NC} [Enter number]: ) " TEMPLATE_ID;
     
-    re='^[0-9]+$'
-    if ! [[ $TEMPLATE_ID =~ $re ]] ; then
+    if ! [[ $TEMPLATE_ID =~ ^[0-9]+$ ]] ; then
         echo -e "${LABEL_ERROR} Not a number. Try again!";
         setTemplateFolder;
     fi
