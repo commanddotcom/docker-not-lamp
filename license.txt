@@ -1,8 +1,8 @@
-DockLAMP is a shell to manage multiple web service stacks based on Docker.
+DockerNotLAMP is a shell to manage multiple web service stacks based on Docker.
 
 Copyright (C) 2020 Yevgen Shevchenko
 
-<https://github.com/commanddotcom/dockerlamp>
+<https://github.com/commanddotcom/docker-not-lamp>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License v.3 as published by

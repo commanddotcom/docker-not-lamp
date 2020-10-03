@@ -15,7 +15,7 @@ help:
 	@echo "  build               Trigger 'docker-compose up -d --no-deps --build' for the existing project" 
 	@echo "  rm                  Remove files, /etc/hosts record and db data for the existing project"
 	@echo ""
-	@echo "  v                   Show current version of core DockLAMP"
+	@echo "  v                   Show current version of core DockerNotLAMP"
 	@echo "  about               Show license & origins"
 
 v:	
