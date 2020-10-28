@@ -58,10 +58,10 @@ getProject() {
                     projectLabel="${On_Red} Stoped ${NC}";
                 fi
                 askForProjectname_Output+=$(echo -e " ${On_Green} $i ${NC}|$f|$projectLabel");
-                i=$((i+1));
             else 
                 askForProjectname_Output+=$(echo -e " ${On_Red} x ${NC}|$f|${On_Yellow} docker-compose.yml doesn't exist ${NC}");
             fi
+            i=$((i+1));
         fi
     done
 

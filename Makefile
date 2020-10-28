@@ -14,6 +14,7 @@ help:
 	@echo "  down                Trigger 'docker-composer down -v' for the existing project"
 	@echo "  build               Trigger 'docker-compose up -d --no-deps --build' for the existing project" 
 	@echo "  rm                  Remove files, /etc/hosts record and db data for the existing project"
+	@echo "  bash [options]      Open container's command prompt. Options: c=container"
 	@echo ""
 	@echo "  v                   Show current version of core DockerNotLAMP"
 	@echo "  about               Show license & origins"
@@ -46,6 +47,13 @@ status:
 
 build:
 	@bash -e "$(SHELL_DIR)/docker.compose.sh" "up -d --no-deps --build"
+
+bash:
+ifdef c
+	docker exec -it $(c) /bin/bash
+else
+	@echo "Missing container argument: c=container"
+endif
 
 about:
 	@cat "./license.txt"

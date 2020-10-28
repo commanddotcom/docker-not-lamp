@@ -3,7 +3,7 @@
 . "$(dirname "$0")/libs/colors.sh"
 . "$(dirname "$0")/libs/functions.sh"
 
-LOG_ENV="# DockLAMP .installed file keeps inforamtion about things that were automatically installed\n";
+LOG_ENV="# .installed file keeps inforamtion about things that were automatically installed\n";
 LOG_ENV="${LOG_ENV}CREATED=\"$(date)\"\n";
 LOG_ENV="${LOG_ENV}CREATED_UNIXTIME=\"$(date +%s)\"\n";
 
@@ -40,6 +40,11 @@ echo -e "$LOG_ENV" >> "$PROJECT_DIR/.installed"; # save information about things
 
 cd $PROJECT_DIR;
 docker-compose up -d; # run containers
+
+INIT_INSTALL_FILE="$TEMPLATE_DIR/$TEMPLATE_FOLDER/.init.sh";
+if [ -f "$INIT_INSTALL_FILE" ]; then
+    . $INIT_INSTALL_FILE
+fi
 
 echo -e " 
 Installation complite! 
