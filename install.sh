@@ -10,6 +10,9 @@ if [ -f "$ENV_FILE" ]; then
     exit 0;
 fi
 
+docker network create mysql > /dev/null 2>&1
+docker network create postgres > /dev/null 2>&1
+
 export MYSQL_ROOT_PASSWORD=$(getRandStr) MYSQL_PASSWORD=$(getRandStr) PG_PASSWORD=$(getRandStr) PGADMIN_DEFAULT_PASS=$(getRandStr);
 envsubst '${MYSQL_ROOT_PASSWORD} ${MYSQL_PASSWORD} ${PG_PASSWORD} ${PGADMIN_DEFAULT_PASS}' <"./services/database/env.dist" >"$ENV_FILE"
 
