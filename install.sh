@@ -10,6 +10,7 @@ if [ -f "$ENV_FILE" ]; then
     exit 0;
 fi
 
+docker network create nginx-proxy > /dev/null 2>&1
 docker network create mysql > /dev/null 2>&1
 docker network create postgres > /dev/null 2>&1
 
