@@ -1,7 +1,7 @@
 **
 
 !.gitignore
-!.env
+!/.env
 !install.sh
 !README.md
 !Makefile
