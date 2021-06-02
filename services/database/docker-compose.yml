@@ -18,6 +18,8 @@ services:
             - mysql
     myadmin:
         image: phpmyadmin/phpmyadmin:4.6
+        ports:
+            - 8080:80
         expose:
             - 80
         env_file:
@@ -51,6 +53,8 @@ services:
     pgadmin:
         image: dpage/pgadmin4:4.23
         container_name: pgadmin
+        ports:
+            - 8081:80
         expose:
             - 80
         env_file:
