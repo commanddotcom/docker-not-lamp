@@ -7,8 +7,9 @@ getEnvValue() {
     echo $(eval echo $(grep $1 "$ENV_FILE_" | cut -d '=' -f2));
 }
 
+set -o allexport; source "$(pwd)/.env"; set +o allexport
+
 IP=$(getEnvValue "IP");
-HOST_FILE=$(getEnvValue "HOST_FILE");
 TEMPLATE_DIR="$(pwd)/"$(getEnvValue "TEMPLATE_DIR")
 NGINX_PROXY_DIR="$(pwd)/"$(getEnvValue "NGINX_PROXY_DIR");
 DATABASE_DIR="$(pwd)/"$(getEnvValue "DATABASE_DIR");
@@ -50,7 +51,7 @@ getProject() {
                 break;
             fi
             askForProjectname_Output+="\n"
-            if [ -f "$PROJECTS_DIR/$f/docker-compose.yml" ]; then
+            if [ -f "$PROJECTS_DIR/$f/docker-compose.yml" ] || [ -f "$PROJECTS_DIR/$f/docker-compose-$ENVIRONMENT.yml" ]; then
                 runningConainers=$(countRunningContainersForDockerComposer "$(pwd)/$f");
                 if [ $runningConainers -gt 0 ]; then
                     projectLabel="${On_Green} $runningConainers container is running ${NC}";

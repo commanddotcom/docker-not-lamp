@@ -1,6 +1,7 @@
 version: "3"
 services:
     mysql:
+        restart: unless-stopped
         image: mysql:${MYSQL_VERSION}
         container_name: ${MYSQL_HOST}
         restart: always
@@ -17,6 +18,7 @@ services:
         networks:
             - mysql
     myadmin:
+        restart: unless-stopped
         image: phpmyadmin/phpmyadmin:4.6
         ports:
             - 8080:80
@@ -36,6 +38,7 @@ services:
             - mysql
             - nginx-proxy
     postgres:
+        restart: unless-stopped
         image: postgres:${PG_VERSION}
         container_name: ${PG_HOST}
         restart: always
@@ -51,6 +54,7 @@ services:
         networks:
             - postgres
     pgadmin:
+        restart: unless-stopped
         image: dpage/pgadmin4:4.23
         container_name: pgadmin
         ports:

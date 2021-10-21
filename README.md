@@ -23,3 +23,6 @@ That's it. Now you can start your first project with `make new`
 
 DockerNotLAMP is a lite script to boost up your productivity. It is not meant to be used on production.
 
+## Troubleshooting
+
+1. If error `bash: make: command not found` then install `make` utility: `apt-get -y install make`

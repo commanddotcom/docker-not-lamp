@@ -3,6 +3,7 @@ version: '3'
 services:
   webserver:
     build: ./etc/apache/
+    restart: unless-stopped
     container_name: _name_-apache
     expose:
       - 80
